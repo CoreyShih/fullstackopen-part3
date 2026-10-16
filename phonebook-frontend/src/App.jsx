@@ -38,9 +38,14 @@ const App = () => {
             setTimeout(() => setNotification({ ...notification, message: null }), 5000)
           })
           .catch(error => {
-            setNotification({ message: `Information of ${personToUpdate.name} has already been removed from server`, color: 'red' })
-            setTimeout(() => setNotification({ ...notification, message: null }), 5000)
-            setPersons(persons.filter(person => person.id !== personToUpdate.id))
+            if (!error.response.data.error) {
+              setNotification({ message: `Information of ${personToUpdate.name} has already been removed from server`, color: 'red' })
+              setTimeout(() => setNotification({ ...notification, message: null }), 5000)
+              setPersons(persons.filter(person => person.id !== personToUpdate.id))
+            } else {
+              setNotification({ message: error.response.data.error, color: 'red' })
+              setTimeout(() => setNotification({ ...notification, message: null }), 5000)
+            }
           })
       }
     } else {
@@ -53,6 +58,10 @@ const App = () => {
           setNewName('')
           setNewNumber('')
           setNotification({ message: `Added ${returnedPerson.name}`, color: 'green' })
+          setTimeout(() => setNotification({ ...notification, message: null }), 5000)
+        })
+        .catch(error => {
+          setNotification({ message: error.response.data.error, color: 'red' })
           setTimeout(() => setNotification({ ...notification, message: null }), 5000)
         })
     }
