@@ -4,7 +4,7 @@ const url = process.env.MONGODB_URI
 
 console.log('connecting to', url)
 mongoose.connect(url, { family: 4 })
-  .then(result => {
+  .then(() => {
     console.log('connected to MongoDB')
   })
   .catch(error => {
@@ -15,10 +15,10 @@ const numberValidator = (val) => {
   const numbers = val.split('-')
 
   return !(
-    numbers.length !== 2 
-    || !+numbers[0] 
-    || !+numbers[1] 
-    || !(numbers[0].length === 2 || numbers[0].length === 3) 
+    numbers.length !== 2
+    || !+numbers[0]
+    || !+numbers[1]
+    || !(numbers[0].length === 2 || numbers[0].length === 3)
     || numbers.join('').length < 8
   )
 }
